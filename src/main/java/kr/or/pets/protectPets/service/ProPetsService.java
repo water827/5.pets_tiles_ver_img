@@ -1,11 +1,11 @@
-package kr.or.pets.protect_pets.service;
+package kr.or.pets.protectPets.service;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import kr.or.pets.protect_pets.vo.ProPetsVO;
+import kr.or.pets.protectPets.vo.ProPetsVO;
 
 public interface ProPetsService {
 
@@ -21,7 +21,7 @@ public interface ProPetsService {
 
 	public List<ProPetsVO> searchBoards(String searchWord) throws Exception;
 
-	public ProPetsVO viewBoard(int pro_boardNum) throws Exception;
+	public Map viewBoard(int pro_boardNum) throws Exception;
 
 
 }

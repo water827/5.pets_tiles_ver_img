@@ -16,11 +16,40 @@
 			if(input.files && input.files[0]) {			//input 태그에 첫번째 선택파일이 있을때
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					$('#preview0').attr('src', e.target.result);		// input file로 이미지 파일을 선택시 	id가 preview인 <img>태그에 src속성 값에 이미지를 바로 보이도록 변경 
+					$('#preview' + index).attr('src', e.target.result);		// input file로 이미지 파일을 선택시 	id가 preview인 <img>태그에 src속성 값에 이미지를 바로 보이도록 변경 
 				}
 				reader.readAsDataURL(input.files[0]);				// reader가 File내용을 읽어 DataURL형식의 문자열로 저장
 			}
 		}
+		
+		
+		var cnt = 1;
+		function fn_addFile() {
+			cnt++;
+			
+			var innerHtml = "";
+			innerHtml += '<tr width=100% align=center>';
+			
+			
+/* 			innerHtml += '<td>' + "<input type=file name='file    "+cnt+"       '                 onchange='readURL(this,"+cnt+")       '                                          />"
+						 + '</td>';
+ */						 
+			innerHtml += '<td>' + "<input type=file name='file"+cnt+"'onchange='readURL(this,"+cnt+")'/>"
+			 + '</td>';						 
+
+			 
+/* 			innerHtml += '<td>'	+ "<img id='preview    "+cnt+"                         '          width=640 height=480                                                             />"		 
+						 + '</td>';
+ */						 
+						 
+			innerHtml += '<td>'	+ "<img id='preview"+cnt+"'width=640 height=480/>"		 
+			 + '</td>';						 
+						 
+			innerHtml += '</tr>';
+			
+			$("#tb_newImage").append(innerHtml);
+		}
+		
 		</script>
 	<style type="text/css">
 		.text_center {
@@ -91,6 +120,33 @@
 				<td width="200"><p align="right">사진</td>
 				<td><input type="file" name="imageFileName" onchange="readURL(this, 0)" /></td><br/>
 			</tr>
+			
+			<tr>
+				<td colspan="3">
+					<table width="100%" border="0" id="tb_newImage">
+					</table>
+				</td>
+			</tr>
+
+ 			
+			<tr height="200px">
+				<td colspan="3"></td>
+			</tr>
+		
+			<tr>
+				<td align="right">이미지파일 첨부</td>
+				<td align="left" colspan="2">
+					<input type="button" value="새 이미지 파일 추가하기" onclick="fn_addFile()" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="4">
+					<div id="d_file"></div>
+				</td>
+			</tr>
+ 		
+			
 			<tr>
 				<td width="200"><p align="right">아이디</td>
 				<td width="400"><input type="text" name="user_id" /></td>

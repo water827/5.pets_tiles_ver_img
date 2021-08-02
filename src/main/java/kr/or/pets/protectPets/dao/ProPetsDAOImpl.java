@@ -1,4 +1,4 @@
-package kr.or.pets.protect_pets.dao;
+package kr.or.pets.protectPets.dao;
 
 import java.util.ArrayList;
 
@@ -11,8 +11,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import kr.or.pets.board.vo.BoardVO;
-import kr.or.pets.protect_pets.vo.ImageVO;
-import kr.or.pets.protect_pets.vo.ProPetsVO;
+import kr.or.pets.protectPets.vo.ImageVO;
+import kr.or.pets.protectPets.vo.ProPetsVO;
 
 @Repository("proPetsDAO")
 public class ProPetsDAOImpl implements ProPetsDAO {
@@ -102,6 +102,20 @@ public class ProPetsDAOImpl implements ProPetsDAO {
 	//  max 값 + 1
 	public int selectNewArticleNo() throws DataAccessException {
 		return sqlSession.selectOne("mapper.protect.selectNewArticleNo");
+	}
+
+	@Override
+	public ProPetsVO selectBoard(int pro_boardNum) throws DataAccessException {
+		
+		return sqlSession.selectOne("mapper.protect.selectBoard", pro_boardNum);
+	}
+
+	@Override
+	public List<ImageVO> selectImageFileList(int pro_boardNum) throws DataAccessException {
+		
+		List<ImageVO> imageFileList = sqlSession.selectList("mapper.protect.selectImageFileList", pro_boardNum);
+		
+		return imageFileList;
 	}
 
 }

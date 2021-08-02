@@ -22,8 +22,14 @@
 		<result property="pro_date" column="pro_date" />
 		<result property="user_id" column="user_id" />
 	</resultMap>
-
 	
+	<resultMap type="imageVO" id="imgResult">
+		<result property="imageFileNo"	column="imageFileNo" />
+		<result property="pro_boardNum" column="pro_boardNum" />
+		<result property="imageFileName" column="imageFileName"/>
+	</resultMap>
+
+
 	<select id="selectAllBoards" resultMap="protectResult">
 		<![CDATA[
 			select * from (
@@ -66,12 +72,14 @@
 			where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
 		]]>
 	</select>
-	
+
 	<select id="selectTotBoards" resultType="int">
-		select count(pro_noticeNum) from pro_board
+		select
+		count(pro_noticeNum) from pro_board
 	</select>
-	
-	<select id="selectKeywordSearch" resultType="String" parameterType="String">
+
+	<select id="selectKeywordSearch" resultType="String"
+		parameterType="String">
 		<![CDATA[
 			SELECT title FROM pro_board
 			WHERE 
@@ -81,8 +89,9 @@
 			ORDER BY pro_date DESC
 		]]>
 	</select>
-	
-	<select id="selectBoardsBySearchWord" resultMap="protectResult" parameterType="proPetsVO">
+
+	<select id="selectBoardsBySearchWord" resultMap="protectResult"
+		parameterType="proPetsVO">
 		<![CDATA[
 			SELECT P.* FROM pro_board P
 			WHERE 
@@ -94,20 +103,20 @@
 			ORDER BY P.pro_date DESC		
 		]]>
 	</select>
-	
+
 	<select id="selectNewArticleNo" resultType="int">
 		<![CDATA[
 			SELECT NVL(MAX(pro_boardNum), 0) + 1 FROM pro_board
 		]]>
 	</select>
-	
+
 	<insert id="insertNewArticle" parameterType="java.util.Map">
 		<![CDATA[
 			INSERT INTO pro_board (pro_boardNum, pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
 			VALUES (#{pro_boardNum}, #{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, null, #{user_id})
 		]]>
 	</insert>
-	
+
 	<select id="selectNewImageFileNo" resultType="int">
 		<![CDATA[
 			SELECT nvl(max(imageFileNo), 0) from t_imageFile
@@ -115,12 +124,15 @@
 	</select>
 
 	<insert id="insertNewImage" parameterType="java.util.Map">
-		<foreach collection="list" item="item" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
-			INTO t_imageFile (imageFileNo,imageFileName, pro_boardNum, regDate)
-			VALUES (#{item.imageFileNo}, #{item.imageFileName}, #{item.pro_boardNum}, sysdate)
+		<foreach collection="list" item="item" open="INSERT ALL"
+			separator=" " close="SELECT * FROM DUAL">
+			INTO t_imageFile (imageFileNo,imageFileName,
+			pro_boardNum, regDate)
+			VALUES (#{item.imageFileNo},
+			#{item.imageFileName}, #{item.pro_boardNum}, sysdate)
 		</foreach>
 	</insert>
-	
+
 	<delete id="deleteBoard" parameterType="String">
 		<![CDATA[
 			DELETE FROM pro_board
@@ -128,15 +140,46 @@
 			pro_noticeNum = #{pro_noticeNum}
 		]]>
 	</delete>
-	
-	<select id="viewBoard" parameterType="Integer" resultType="proPetsVO">
+
+	<select id="viewBoard" parameterType="Integer"
+		resultType="proPetsVO">
   	<![CDATA[
   		select * from pro_board
   		where 
   		pro_boardNum=#{pro_boardNum}
   	]]>
-  </select>
+	</select>
+
+
+	<select id="selectBoard" resultType="ProPetsVO" parameterType="int">
+		<![CDATA[
+			SELECT * FROM pro_board
+			WHERE pro_boardNum = #{pro_boardNum}
+		]]>
+	</select>
 	
-	
+	<select id="selectImageFileList" resultMap="imgResult" parameterType="int">
+		<![CDATA[
+			SELECT * FROM t_imageFile
+			WHERE pro_boardNum = #{pro_boardNum}
+			order by imageFileNo
+		]]>
+	</select>
 
 </mapper>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

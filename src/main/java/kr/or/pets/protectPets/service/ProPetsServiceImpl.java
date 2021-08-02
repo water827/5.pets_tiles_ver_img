@@ -1,4 +1,4 @@
-package kr.or.pets.protect_pets.service;
+package kr.or.pets.protectPets.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.or.pets.protect_pets.dao.ProPetsDAO;
-import kr.or.pets.protect_pets.vo.ProPetsVO;
+import kr.or.pets.protectPets.dao.ProPetsDAO;
+import kr.or.pets.protectPets.vo.ImageVO;
+import kr.or.pets.protectPets.vo.ProPetsVO;
 
 @Service("proPetsService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -70,10 +71,23 @@ public class ProPetsServiceImpl implements ProPetsService {
 	}
 	
 	@Override
-	public ProPetsVO viewBoard(int pro_boardNum) throws Exception {
+	public Map viewBoard(int pro_boardNum) throws Exception {
+		Map articleMap = new HashMap();
+		ProPetsVO proPetsVO = proPetsDAO.selectBoard(pro_boardNum);
+		List<ImageVO> imageFileList = proPetsDAO.selectImageFileList(pro_boardNum);
 		
-		return proPetsDAO.viewBoard(pro_boardNum);
+		articleMap.put("proPets", proPetsVO);
+		articleMap.put("imageFileList", imageFileList);
+		
+		return articleMap;
 		
 	}
 
 }
+
+
+
+
+
+
+

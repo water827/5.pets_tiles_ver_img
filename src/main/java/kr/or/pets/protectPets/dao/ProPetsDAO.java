@@ -1,11 +1,12 @@
-package kr.or.pets.protect_pets.dao;
+package kr.or.pets.protectPets.dao;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import kr.or.pets.protect_pets.vo.ProPetsVO;
+import kr.or.pets.protectPets.vo.ImageVO;
+import kr.or.pets.protectPets.vo.ProPetsVO;
 
 public interface ProPetsDAO {
 
@@ -26,5 +27,9 @@ public interface ProPetsDAO {
 	public List<ProPetsVO> selectBoardsBySearchWord(String searchWord) throws DataAccessException;
 	
 	public ProPetsVO viewBoard(int pro_boardNum) throws DataAccessException;
+
+	public ProPetsVO selectBoard(int pro_boardNum) throws DataAccessException;
+
+	public List<ImageVO> selectImageFileList(int pro_boardNum) throws DataAccessException;
 	
 }

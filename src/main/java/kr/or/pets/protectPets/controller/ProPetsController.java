@@ -1,4 +1,4 @@
-package kr.or.pets.protect_pets.controller;
+package kr.or.pets.protectPets.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

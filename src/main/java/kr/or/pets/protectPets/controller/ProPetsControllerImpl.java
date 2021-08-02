@@ -1,4 +1,4 @@
-package kr.or.pets.protect_pets.controller;
+package kr.or.pets.protectPets.controller;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import kr.or.pets.member.vo.MemberVO;
-import kr.or.pets.protect_pets.service.ProPetsService;
-import kr.or.pets.protect_pets.vo.ImageVO;
-import kr.or.pets.protect_pets.vo.ProPetsVO;
+import kr.or.pets.protectPets.service.ProPetsService;
+import kr.or.pets.protectPets.vo.ImageVO;
+import kr.or.pets.protectPets.vo.ProPetsVO;
 import net.sf.json.JSONObject;
 
 @Controller("proPetsController")
@@ -93,8 +93,8 @@ public class ProPetsControllerImpl extends MultiActionController implements ProP
 		//로그인 시 세션에 저장된 회원 정보에서 글쓴이 아이디 얻어와 Map에 역시 저장함.
 		HttpSession session = multipartRequest.getSession();
 		MemberVO memberVO = (MemberVO)session.getAttribute("member");
-		String id = memberVO.getUser_ID();				//(나중에 주석해제필요)
-		articleMap.put("user_id", id);					//(나중에 주석해제필요)
+		//String id = memberVO.getUser_ID();				//(나중에 주석해제필요)
+		//articleMap.put("user_id", id);					//(나중에 주석해제필요)
 		
 		//이미지 부분 업로드부분 추가
 		List<String> fileList = upload(multipartRequest);
@@ -271,16 +271,19 @@ public class ProPetsControllerImpl extends MultiActionController implements ProP
 		return mav;
 	}
 	
+	//이미지 포함 글 보여주기
 	@RequestMapping(value = "/protect/viewBoard.do", method = {RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView viewBoard(@RequestParam("pro_boardNum") int pro_boardNum, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		
 		String viewName = (String)request.getAttribute("viewName");
+		Map articleMap = proPetsService.viewBoard(pro_boardNum);
+		
 		System.out.println("===============pro_boardNum: " + pro_boardNum);
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName(viewName);
-		mav.addObject("vo", proPetsService.viewBoard(pro_boardNum));
+		mav.addObject("articleMap", articleMap);
 		
 		return mav;
 	}

@@ -6,6 +6,8 @@
 	request.setCharacterEncoding("UTF-8");
 %>      
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<c:set var="proPets" value="${articleMap.proPets }" />
+<c:set var="imageFileList" value="${articleMap.imageFileList}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,55 +73,66 @@
 			
 			<tr>
 				<td width="200"><p align="right">공고번호</td>
-				<td width="400"><input type="text" name="pro_noticeNum" value="${vo.pro_noticeNum}" disabled /></td>
+				<td width="400"><input type="text" name="pro_noticeNum" value="${proPets.pro_noticeNum}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">품종</td>
-				<td width="400"><input type="text" name="pro_kind" value="${vo.pro_kind}" disabled /></td>
+				<td width="400"><input type="text" name="pro_kind" value="${proPets.pro_kind}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">성별</td>
-				<td width="400"><input type="text" name="pro_gender" value="${vo.pro_gender}" disabled /></td>
+				<td width="400"><input type="text" name="pro_gender" value="${proPets.pro_gender}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">나이</td>
-				<td width="400"><input type="text" name="pro_age" value="${vo.pro_age}" disabled /></td>
+				<td width="400"><input type="text" name="pro_age" value="${proPets.pro_age}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">발견장소</td>
-				<td width="400"><input type="text" name="pro_place" value="${vo.pro_place}" disabled /></td>
+				<td width="400"><input type="text" name="pro_place" value="${proPets.pro_place}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">발견일자</td>
-				<td width="400"><input type="text" name="pro_findDate" value="${vo.pro_findDate}" disabled /></td>
+				<td width="400"><input type="text" name="pro_findDate" value="${proPets.pro_findDate}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">특징</td>
-				<td width="400"><input type="text" name="pro_character" value="${vo.pro_character}" disabled /></td>
+				<td width="400"><input type="text" name="pro_character" value="${proPets.pro_character}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">중성화</td>
-				<td width="400"><input type="text" name="pro_neutering"  value="${vo.pro_neutering}" disabled /></td>
+				<td width="400"><input type="text" name="pro_neutering"  value="${proPets.pro_neutering}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">등록번호</td>
-				<td width="400"><input type="text" name="pro_registNum" value="${vo.pro_registNum}" disabled /></td>
+				<td width="400"><input type="text" name="pro_registNum" value="${proPets.pro_registNum}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">상태</td>
-				<td width="400"><input type="text" name="pro_state" value="${vo.pro_state}" disabled /></td>
+				<td width="400"><input type="text" name="pro_state" value="${proPets.pro_state}" disabled /></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">보호소</td>
-				<td width="400"><input type="text" name="pro_shelter" value="${vo.pro_shelter}" disabled /></td>
+				<td width="400"><input type="text" name="pro_shelter" value="${proPets.pro_shelter}" disabled /></td>
 			</tr>
-			<tr>
-				<td width="200"><p align="right">사진</td>
-				<td>
-				<input type="hidden" name="originalFileName" value="${protect.imageFileName }" />
-				<img alt="사진" src="${contextPath}/download.do?pro_boardNum=${protect.pro_boardNum}&imageFileName=${protect.imageFileName}" id="preview0" width="300"><br/>
-				</td>
-			</tr>
+			
+			<c:choose>
+				<c:when test="${not empty imageFileList && imageFileList != 'null' }">
+					<c:forEach var="item" items="${imageFileList}" varStatus="status">
+						<tr id="tr_${status.count}">
+							<td width="200" bgcolor="#FF9933"><p align="right">사진${status.count}</td>
+							<td>
+								<input type="hidden" name="originalFileName" value="${item.imageFileName }" />
+								<input type="hidden" name="imgaeFileNo" value="${item.imageFileNo }">
+								<img alt="사진" src="${contextPath}/download.do?pro_boardNum=${proPets.pro_boardNum}&imageFileName=${item.imageFileName}" id="preview${status.index}" width="300"><br/>
+							</td>
+						</tr>				
+					</c:forEach>							
+				</c:when>
+				
+			</c:choose>
+
+
 			
 			<tr id="tr_btn">
 				<td colspan="2" align="center">

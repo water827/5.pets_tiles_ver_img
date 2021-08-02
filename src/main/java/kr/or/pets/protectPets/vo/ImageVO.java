@@ -1,4 +1,4 @@
-package kr.or.pets.protect_pets.vo;
+package kr.or.pets.protectPets.vo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
